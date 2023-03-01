@@ -1,23 +1,22 @@
 <template>
   <div id="app">
-    
-    
-    <HeadBar></HeadBar>
     <ActionBar></ActionBar>
+    <HeadBar></HeadBar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HeadBar from './components/HeadBar/HeadBar.vue'
-import ActionBar from './components/ActionBar/ActionBar.vue'
+  import 'animate.css'
+  import HeadBar from './components/HeadBar/HeadBar.vue'
+  import ActionBar from './components/ActionBar/ActionBar.vue'
   export default {
     name: 'App',
     components: {
-      HeadBar,ActionBar
+      HeadBar,
+      ActionBar
     },
-    methods: {
-    },
+    methods: {},
   }
 </script>
 
@@ -60,9 +59,4 @@ import ActionBar from './components/ActionBar/ActionBar.vue'
     /* Internet Explorer 10-11 */
     color: #ffffff;
   }
-
-  
-
-  
-  
 </style>

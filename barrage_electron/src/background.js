@@ -1,5 +1,4 @@
 'use strict'
-
 import {
   app,
   protocol,
@@ -11,7 +10,7 @@ import {
   createProtocol
 } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {
-  VUEJS_DEVTOOLS
+  VUEJS_DEVTOOLS  
 } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -29,20 +28,21 @@ Menu.setApplicationMenu(null)
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1000,
+    width: 1300,
     height: 600,
     transparent: true,
-    frame:false,
-    center:true,   
-    resizable:false,
+    frame: false,
+    center: true,
+    resizable: false,
     // movable:false,
     webPreferences: {
       webSecurity: false,
       enableRemoteModule: true,
       // nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
       // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+
     }
   })
 
@@ -55,8 +55,7 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
-
-  // createMenu()
+  createMenu()
 }
 
 // Quit when all windows are closed.
@@ -86,6 +85,9 @@ app.on('ready', async () => {
   //     console.error('Vue Devtools failed to install:', e.toString())
   //   }
   // }
+  // globalShortcut.register('CommandOrControl+Shift+i', function () {
+  //   win.webContents.openDevTools()
+  // })
   createWindow()
 })
 
@@ -124,5 +126,5 @@ function createMenu() {
     Menu.setApplicationMenu(null)
   }
 
- 
+
 }

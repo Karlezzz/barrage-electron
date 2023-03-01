@@ -5,86 +5,56 @@
         <div class="signin-signup">
           <form action="" class="sign-in-form">
             <h2 class="title">Welcome Barrage</h2>
-            <div class="input-filed">
-              <i class="fa-solid fa-user"></i>
-              <input type="text" placeholder="ROOMID">
+            <div class="input-filed moreRoomId">
+              <i class="fa-solid fa-user "></i>
+              <input type="text" placeholder="ROOMID" v-model="roomId">
+              <div class="img" @click="showRoomIdList">
+                <img src="../Enter/image/下拉.png" alt="">
+              </div>
+
+              <div class="roomIdList" v-if="isShowRoomId">
+                <div class="listItem" v-for="item in roomIdList" :key="item.id" @click="selectRoomId(item)">
+                  {{item.roomid}}</div>
+              </div>
             </div>
             <div class="input-filed">
               <i class="fa-solid fa-user"></i>
               <input type="password" placeholder="PASSWORD">
             </div>
-
             <input type="submit" value="ADD" class="btn solid">
-            <!-- <p class="social-text">Or Sign in with social platforms</p> -->
-            <!-- <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-meta"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-google"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-telegram"></i>
-                        </a>
-                    </div> -->
           </form>
 
-          <form action="" class="sign-up-form" v-if="isCreate">
-            <h2 class="title">Sign Up</h2>
+          <form action="" class="sign-up-form">
+            <h2 class="title">Create Room</h2>
             <div class="input-filed">
-              <i class="fa-solid fa-user"></i>
-              <input type="text" placeholder="USERNAME">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" placeholder="ROOMNAME">
             </div>
             <div class="input-filed">
               <i class="fa-solid fa-envelope"></i>
-              <input type="password" placeholder="EMAIL">
-            </div>
-            <div class="input-filed">
-              <i class="fa-solid fa-lock"></i>
               <input type="password" placeholder="PASSWORD">
             </div>
-            <input type="submit" value="Sign Up" class="btn solid">
-            <!-- <p class="social-text">Or Sign up with social platforms</p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-meta"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-google"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-telegram"></i>
-                        </a>
-                    </div> -->
+
+            <input type="submit" value="CREATE" class="btn solid" @click="created">
+
           </form>
+
+
         </div>
       </div>
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>No room? Forget?</h3>
-            <p>Click here and select one !</p>
+            <h3>No room? </h3>
+            <p>Click here and create one !</p>
             <button class="btn transparent" id="sign-up-btn" @click="create">Create</button>
-            <button class="btn transparent" id="sign-up-btn" @click="select">Select</button>
           </div>
           <img src="./svg/undraw_maker_launch_re_rq81.svg" class="image" alt="">
         </div>
         <div class="panel right-panel">
           <div class="content">
-            <h3>One of us ?</h3>
-            <p>Sign in right now !</p>
+            <h3>Ready?</h3>
+            <p>Add the room now !</p>
             <button class="btn transparent" id="sign-in-btn" @click="addRoom">Add Room</button>
           </div>
           <img src="./svg/undraw_on_the_office_re_cxds.svg" class="image" alt="">
@@ -100,21 +70,51 @@
     name: 'Enter',
     data() {
       return {
-        isCreate: false,
-        isSelect: false,
-        isAddRoom: false
+        isShowRoomId: false,
+        roomId: null,
+        roomIdList: [{
+            id: '001',
+            roomid: '123'
+          },
+          {
+            id: '002',
+            roomid: '3456'
+          },
+          {
+            id: '003',
+            roomid: '2563647'
+          },
+          {
+            id: '004',
+            roomid: '34627'
+          },
+          {
+            id: '005',
+            roomid: '25763473'
+          },
+        ]
       }
     },
     methods: {
       create() {
         this.$refs.container.classList.add('sign-up-mode')
-        this.isCreate = true
+        this.isShowRoomId = false
       },
       addRoom() {
         this.$refs.container.classList.remove('sign-up-mode')
       },
       select() {
         this.$refs.container.classList.add('sign-up-mode')
+      },
+      created() {
+        this.$refs.container.classList.remove('sign-up-mode')
+      },
+      showRoomIdList() {
+        this.isShowRoomId = !this.isShowRoomId
+      },
+      selectRoomId(item) {
+        this.isShowRoomId = false
+        this.roomId = item.roomid
       }
     },
   }
@@ -123,7 +123,7 @@
 <style scoped>
   .box {
     height: 100%;
-    width: 100%;
+    width: 1000px;
     border-radius: 50px;
   }
 
@@ -221,10 +221,11 @@
     outline: none;
     border: none;
     background-color: #f0f0f0;
-    color: #333;
+    color: #ea7724;
     line-height: 1;
     font-weight: 600;
     font-size: 1.1rem;
+    letter-spacing: 1px;
   }
 
   .input-filed input::placeholder {
@@ -250,38 +251,6 @@
 
   .btn:hover {
     background-color: #c86118;
-  }
-
-  .social-text {
-    color: #ea7724;
-    padding: .7rem 0;
-    font-size: 1rem;
-  }
-
-  .social-media {
-    display: flex;
-    justify-content: center;
-  }
-
-  .social-icon {
-    height: 46px;
-    width: 46px;
-    border: 1px solid #333;
-    margin: 0 0.45rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    font-size: 1.1rem;
-    border-radius: 50%;
-    transition: .3s;
-  }
-
-  .social-icon:hover {
-    color: #175fdc;
-    border: 1px solid #3f81f4;
-    transition: .3s;
   }
 
   .panels-container {
@@ -383,5 +352,67 @@
   .container.sign-up-mode form.sign-up-form {
     z-index: 2;
     opacity: 1;
+  }
+
+  .moreRoomId {
+    position: relative;
+    /* background-color: red; */
+  }
+
+  .moreRoomId .img {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
+
+  .moreRoomId .img img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .moreRoomId .img:hover {
+    background-color: #e6e4e484;
+    border-radius: 10px;
+  }
+
+
+  .roomIdList {
+    /* display: none; */
+    position: absolute;
+    /* top: 159px; */
+    top: 100%;
+    left: 7%;
+    height: 160px;
+    width: 292px;
+    background-color: #ea7724;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    /* background-color: red; */
+    overflow: scroll;
+  }
+
+  .roomIdList .listItem {
+    /* margin-bottom: 5px; */
+    height: 40px;
+    width: 100%;
+
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ea7724;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #c3c3c7c9;
+    cursor: pointer;
+  }
+
+  .roomIdList .listItem:hover {
+    background-color: #ea7724;
+    color: white;
   }
 </style>

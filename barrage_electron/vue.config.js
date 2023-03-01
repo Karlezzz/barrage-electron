@@ -4,7 +4,7 @@ module.exports = defineConfig({
   lintOnSave:false,
   pluginOptions: {
     electronBuilder: {
-        nodeIntegration: true
+        nodeIntegration: true,
     }
 }
 })
