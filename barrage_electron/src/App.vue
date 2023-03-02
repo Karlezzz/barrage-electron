@@ -33,9 +33,11 @@
   }
 
   /* 禁止图片被保存 */
-  /* img {
+  img {
     pointer-events: auto;
-  } */
+    -webkit-user-drag:none;
+  }
+
 
   input:focus {
     outline: none;

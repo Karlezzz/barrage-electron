@@ -3,7 +3,8 @@
     <div class="container" ref="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="" class="sign-in-form">
+
+          <form action="#" class="sign-in-form">
             <h2 class="title">Welcome Barrage</h2>
             <div class="input-filed moreRoomId">
               <i class="fa-solid fa-user "></i>
@@ -21,7 +22,7 @@
               <i class="fa-solid fa-user"></i>
               <input type="password" placeholder="PASSWORD">
             </div>
-            <input type="submit" value="ADD" class="btn solid">
+            <input type="submit" value="ADD" class="btn solid" @click="addBarrage">
           </form>
 
           <form action="" class="sign-up-form">
@@ -115,6 +116,10 @@
       selectRoomId(item) {
         this.isShowRoomId = false
         this.roomId = item.roomid
+      },
+      addBarrage(){
+        this.$router.push('/main')
+        console.log(1);
       }
     },
   }
@@ -123,7 +128,7 @@
 <style scoped>
   .box {
     height: 100%;
-    width: 1000px;
+    width: 100%;
     border-radius: 50px;
   }
 

@@ -31,7 +31,7 @@
 
         if(remote.getCurrentWindow().isMaximized()){
           
-          remote.getCurrentWindow().setContentSize(1300,600)
+          remote.getCurrentWindow().setContentSize(1000,600)
           remote.getCurrentWindow().center()
         }else{
           remote.getCurrentWindow().maximize()

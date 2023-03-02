@@ -28,7 +28,8 @@ Menu.setApplicationMenu(null)
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1300,
+    // width: 1300,
+    width: 1000,
     height: 600,
     transparent: true,
     frame: false,
@@ -51,12 +52,12 @@ async function createWindow() {
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
-    createProtocol('app')
+    createProtocol('app') 
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
   createMenu()
-}
+} 
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -65,7 +66,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+}) 
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
