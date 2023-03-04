@@ -54,7 +54,7 @@ async function createWindow() {
   } else {
     createProtocol('app') 
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    win.loadURL('app://./index.html') 
   }
   createMenu()
 } 
@@ -64,7 +64,7 @@ app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit() 
   }
 }) 
 
