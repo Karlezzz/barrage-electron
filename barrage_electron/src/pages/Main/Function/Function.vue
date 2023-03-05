@@ -72,6 +72,18 @@
                 },
             }
         },
+        methods: {
+            selectFunction(index) {
+                //1.member 2.vote 3.screen 4.share
+                for (let i in this.functionStatusList) {
+                    this.functionStatusList[i] = false
+                }
+                if (index == 1) this.functionStatusList.isShowMember = true
+                if (index == 2) this.functionStatusList.isShowVote = true
+
+                this.$bus.$emit('getFunctionStatusList', this.functionStatusList)
+            },
+        },
     }
 </script>
 

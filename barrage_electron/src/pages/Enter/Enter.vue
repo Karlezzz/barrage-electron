@@ -119,7 +119,6 @@
       },
       addBarrage(){
         this.$router.push('/main')
-        console.log(1);
       }
     },
   }

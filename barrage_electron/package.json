@@ -13,8 +13,10 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@vue/devtools": "^6.5.0",
     "animate.css": "^4.1.1",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.1",
     "vue": "^2.6.14",
     "vue-router": "^3.6.5"
   },

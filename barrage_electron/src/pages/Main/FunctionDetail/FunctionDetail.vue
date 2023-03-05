@@ -1,9 +1,9 @@
 <template>
     <div class="functionDetail">
-        <Member :isShowMember="isShowMember"></Member>
-        <Vote :isShowVote="isShowVote"></Vote>
-        <ShareRoom :isShowShareRoom="isShowShareRoom"></ShareRoom>
-        <Screen :isShowScreen="isShowScreen"></Screen>
+        <Member :isShowMember="functionStatusList.isShowMember"></Member>
+        <Vote :isShowVote="functionStatusList.isShowVote"></Vote>
+        <ShareRoom :isShowShareRoom="functionStatusList.isShowShareRoom"></ShareRoom>
+        <Screen :isShowScreen="functionStatusList.isShowScreen"></Screen>
     </div>
 </template>
 
@@ -22,11 +22,12 @@
         },
         data() {
             return {
-                isShowTimeList: false,
-                isShowMember: true,
-                isShowVote: false,
-                isShowScreen: false,
-                isShowShareRoom: false
+                functionStatusList: {
+                    isShowMember: true,
+                    isShowVote: false,
+                    isShowScreen: false,
+                    isShowShareRoom: false
+                },
             }
         },
         methods: {
@@ -34,6 +35,11 @@
                 this.isShowTimeList = !this.isShowTimeList
             }
         },
+        mounted() {
+            this.$bus.$on('getFunctionStatusList', (value) => {
+                this.functionStatusList=value
+            })
+        }
     }
 </script>
 

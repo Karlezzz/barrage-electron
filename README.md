@@ -9,6 +9,12 @@
 > 3.关闭窗口进行最小化和关闭选择
 >
 > 4.软件icon图标
+>
+> 5.未结束的投票结果需要定时请求数据进行刷新
+>
+> 6.设置软件图标，工具栏，任务栏右键
+>
+> 7.白天模式和黑夜模式
 
 ### 2023.2.28
 
@@ -57,3 +63,21 @@
 1.拆分组件
 
 2.完善Vote组件
+
+
+
+### 2023.3.5
+
+1.通过全局事件总线，Function组件控制FunctionDetail组件的展现
+
+2.配置vue开发者工具session.defaultSession.loadExtension(path)
+
+3.添加投票选项 修改投票选项（todoList案例）
+
+​	用:value代替v-model   用e.target.value来改变数据（用一个变量，v-model绑定，会让多个input框内容一致）
+
+​	在数组中添加isEdit来判断选项状态
+
+4.createVote完成
+
+5.historyVote完成，引入echart图标展示投票结果
