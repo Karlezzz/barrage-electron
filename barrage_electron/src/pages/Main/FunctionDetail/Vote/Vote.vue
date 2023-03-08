@@ -1,14 +1,20 @@
 <template>
-    <div class="vote" v-if="isShowVote">
-        <div class="vote_head">
-            <div class="twoVoteSelect" @click="selectVote(1)" :style="{'background-color':isShowCreateVote? '#526af0':'#232227'}">发起投票</div>
-            <div class="twoVoteSelect" @click="selectVote(2)" :style="{'background-color':isShowHistoryVote? '#526af0':'#232227'}">历史投票</div>
+    <transition enter-active-class="animate__animated animate__flipInY "
+        leave-active-class="animate__animated animate__flipOutY ">
+        <div class="vote" v-if="isShowVote">
+            <div class="vote_head">
+                <div class="twoVoteSelect" @click="selectVote(1)"
+                    :style="{'background-color':isShowCreateVote? '#526af0':'#232227'}">发起投票</div>
+                <div class="twoVoteSelect" @click="selectVote(2)"
+                    :style="{'background-color':isShowHistoryVote? '#526af0':'#232227'}">历史投票</div>
+            </div>
+            <div class="vote_body">
+                <CreateVote :isShowCreateVote="isShowCreateVote"></CreateVote>
+                <HistoryVote :isShowHistoryVote="isShowHistoryVote"></HistoryVote>
+            </div>
         </div>
-        <div class="vote_body">
-            <CreateVote :isShowCreateVote="isShowCreateVote"></CreateVote>
-            <HistoryVote :isShowHistoryVote="isShowHistoryVote"></HistoryVote>
-        </div>
-    </div>
+    </transition>
+
 </template>
 
 <script>
@@ -23,16 +29,16 @@
         },
         data() {
             return {
-                isShowCreateVote:true,
-                isShowHistoryVote:false
+                isShowCreateVote: true,
+                isShowHistoryVote: false
             }
         },
         methods: {
-            selectVote(index){
-                this.isShowCreateVote=false
-                this.isShowHistoryVote=false
-                if(index==1)this.isShowCreateVote=true
-                if(index==2)this.isShowHistoryVote=true
+            selectVote(index) {
+                this.isShowCreateVote = false
+                this.isShowHistoryVote = false
+                if (index == 1) this.isShowCreateVote = true
+                if (index == 2) this.isShowHistoryVote = true
             }
         },
     }

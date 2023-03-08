@@ -1,36 +1,41 @@
 <template>
-    <div class="createVoteCard" v-if="isShowCreateVote">
-        <div class="topic">
-            <input type="text" placeholder="输入投票问题" v-model="voteTitle">
-        </div>
-        <div class="select">
-            <div class="selectItem" v-for="(item,index) in selectList" :key="index" ref="selectItem">
-                <span v-if="!item.isEdit" ref="one" @click="changeSelect(item,index)">{{item.content}}</span>
-                <input v-if="item.isEdit" type="text" @blur="confirmSelect(item,$event)" :value="item.content"
-                    ref="selectInput">
+    <transition enter-active-class="animate__animated animate__flipInY "
+        leave-active-class="animate__animated animate__flipOutY ">
+        <div class="createVoteCard" v-show="isShowCreateVote">
+            <div class="topic">
+                <input type="text" placeholder="输入投票问题" v-model="voteTitle">
             </div>
-            <button @click="addNewSelect">+</button>
-        </div>
-        <div class="time">
-            <div class="input">
-                <input type="text" placeholder="选择投票时限" v-model="voteTime" disabled>
-                <img src="@/pages/Enter/image/下拉.png" alt="" @click="showTimeList">
+            <div class="select">
+                <div class="selectItem" v-for="(item,index) in selectList" :key="index" ref="selectItem">
+                    <span v-if="!item.isEdit" ref="one" @click="changeSelect(item,index)">{{item.content}}</span>
+                    <input v-if="item.isEdit" type="text" @blur="confirmSelect(item,$event)" :value="item.content"
+                        ref="selectInput">
+                </div>
+                <button @click="addNewSelect">+</button>
             </div>
-            <div class="timeList" v-if="isShowTimeList">
-                <div class="timeListItem" v-for="(item,index) in voteTimeList" :key="index" @click="selectTime(item)">
-                    {{ item.content }}</div>
+            <div class="time">
+                <div class="input">
+                    <input type="text" placeholder="选择投票时限" v-model="voteTime" disabled>
+                    <img src="@/pages/Enter/image/下拉.png" alt="" @click="showTimeList">
+                </div>
+                <div class="timeList" v-if="isShowTimeList">
+                    <div class="timeListItem" v-for="(item,index) in voteTimeList" :key="index"
+                        @click="selectTime(item)">
+                        {{ item.content }}</div>
+                </div>
+            </div>
+            <div class="sendVote" @click="postVote">
+                <button>发起投票</button>
             </div>
         </div>
-        <div class="sendVote" @click="postVote">
-            <button>发起投票</button>
-        </div>
-    </div>
+    </transition>
+
 </template>
 
 <script>
     export default {
         name: 'CreateVote',
-        props:['isShowCreateVote'],
+        props: ['isShowCreateVote'],
         data() {
             return {
                 voteTitle: '',

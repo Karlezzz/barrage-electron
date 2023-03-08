@@ -37,8 +37,10 @@ const router = new VueRouter({
             component: Main,
             
         },
-        
-    ]
+    ],
+    // mode:process.env.IS_ELECTRON? 'hash' : 'history',
+    // base: process.env.BASE_URL,
+    
 })
 
 

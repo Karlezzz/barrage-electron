@@ -1,5 +1,7 @@
 <template>
-  <div class="member" v-if="isShowMember">
+    <transition enter-active-class="animate__animated animate__flipInY "
+        leave-active-class="animate__animated animate__flipOutY ">
+        <div class="member" v-if="isShowMember">
             <div class="member_head">
                 <p>在线成员</p>
                 <p><img src="../../image/在线人数green.png" alt=""> 99人</p>
@@ -31,17 +33,19 @@
                 </div>
             </div>
         </div>
+    </transition>
+
 </template>
 
 <script>
-export default {
-    name:'Member',
-    props:['isShowMember']
-}
+    export default {
+        name: 'Member',
+        props: ['isShowMember']
+    }
 </script>
 
 <style scoped>
-   .member {
+    .member {
         width: 96%;
         height: 96%;
         /* background-color: skyblue; */
@@ -50,7 +54,7 @@ export default {
         overflow: hidden;
     }
 
-       .member .member_head {
+    .member .member_head {
         /* background-color: lightcoral; */
         width: 98%;
         height: 14%;
@@ -58,7 +62,7 @@ export default {
         border-bottom: 1px solid #fff;
     }
 
-       .member .member_head p:nth-child(1) {
+    .member .member_head p:nth-child(1) {
         font-size: 20px;
         letter-spacing: 2px;
         color: #e1e1e3;
@@ -66,7 +70,7 @@ export default {
         padding-left: 5px;
     }
 
-       .member .member_head p:nth-child(2) {
+    .member .member_head p:nth-child(2) {
         font-size: 15px;
         letter-spacing: 2px;
         color: #e1e1e3;
@@ -74,12 +78,12 @@ export default {
 
     }
 
-       .member .member_head p:nth-child(2) img {
+    .member .member_head p:nth-child(2) img {
         width: 20px;
         height: 20px;
     }
 
-       .member .member_body {
+    .member .member_body {
         width: 98%;
         height: 90%;
         margin-left: 1%;
@@ -87,7 +91,7 @@ export default {
         overflow: scroll;
     }
 
-       .member .member_body .memberItem {
+    .member .member_body .memberItem {
         width: 98%;
         height: 60px;
         max-height: 20%;
@@ -97,11 +101,11 @@ export default {
         cursor: pointer;
     }
 
-       .member .member_body .memberItem:hover {
+    .member .member_body .memberItem:hover {
         background-color: #46474a;
     }
 
-       .member .member_body .memberItem .memberName {
+    .member .member_body .memberItem .memberName {
         width: 50%;
         height: 45%;
         margin-left: 5%;
@@ -111,7 +115,7 @@ export default {
         font-size: 15px;
     }
 
-       .member .member_body .memberItem .memberId {
+    .member .member_body .memberItem .memberId {
         width: 90%;
         height: 45%;
         margin-left: 5%;

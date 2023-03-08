@@ -45,12 +45,12 @@
                     分享房间
                 </div>
             </div>
-            <div class="openBarrage">
+            <div class="openBarrage" @click="startBarrage">
                 <div class="icon">
                     <img src="../image/弹幕数_32.png" alt="">
                 </div>
                 <div class="word">
-                    开启弹幕
+                    {{barrageStatus}}
                 </div>
             </div>
         </div>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
     export default {
         name: 'Function',
         data() {
@@ -70,6 +71,8 @@
                     isShowScreen: false,
                     isShowShareRoom: false
                 },
+                isOpenBarrage:false,
+                barrageStatus:null
             }
         },
         methods: {
@@ -80,10 +83,28 @@
                 }
                 if (index == 1) this.functionStatusList.isShowMember = true
                 if (index == 2) this.functionStatusList.isShowVote = true
+                if (index == 3) this.functionStatusList.isShowScreen = true
+                if (index == 4) this.functionStatusList.isShowShareRoom = true
 
                 this.$bus.$emit('getFunctionStatusList', this.functionStatusList)
             },
+            startBarrage(){
+                this.isOpenBarrage=!this.isOpenBarrage
+                if(this.isOpenBarrage){
+                    ipcRenderer.send('newWindow')
+
+                    this.barrageStatus = '关闭弹幕'
+                }
+                else if(this.isOpenBarrage==false){
+                    
+                    ipcRenderer.send('closeNewWindow')
+                    this.barrageStatus='开启弹幕'
+                }
+            },
         },
+        mounted(){
+            this.barrageStatus = this.isOpenBarrage==false?'开启弹幕':'关闭弹幕'
+        }
     }
 </script>
 

@@ -27,29 +27,19 @@
   export default {
     name: 'Main',
     components: {
-      Function,Barrage,FunctionDetail
+      Function,
+      Barrage,
+      FunctionDetail
     },
     data() {
       return {
-        
-        functionStatusList: {
-          isShowMember: true,
-          isShowVote: false,
-          isShowScreen: false,
-          isShowShareRoom: false
-        },
-        isShowTimeList: false
+
+
       }
     },
     methods: {
-      
-      
-      
-      showTimeList() {
-        this.isShowTimeList = !this.isShowTimeList
-      }
     },
-    
+
   }
 </script>
 
@@ -123,10 +113,4 @@
     /* height: 510px; */
     height: 90%;
   }
-
-
-
-  
-
-  
 </style>

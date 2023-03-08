@@ -81,3 +81,25 @@
 4.createVote完成
 
 5.historyVote完成，引入echart图标展示投票结果
+
+
+
+### 2023.3.6
+
+1.调整histroyVote组件结构，解决echart被压缩问题
+
+2.完成qrCode界面
+
+3.functionList加上过渡动画
+
+4.开启弹幕，打开子窗口，关闭弹幕关闭子窗口（background.js中 窗口实例放在window对象中）
+
+
+
+2023.3.8
+
+1.重构background.js文件
+
+2.进行多页面入口改造，配置两个"main.js" 和 "App.vue"，在vou.config.js中配置
+
+3.构建弹幕区域组件，使用vue-baberrage插件完成弹幕效果，样式还未设定

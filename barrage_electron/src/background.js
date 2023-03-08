@@ -1,135 +1,119 @@
-import { session } from 'electron';
-import {
-  app,
-  protocol,
-  BrowserWindow,
-  Menu,
-  // ipcMain
-} from 'electron'
-import {
-  createProtocol
-} from 'vue-cli-plugin-electron-builder/lib'
-// import installExtension, {
-//   VUEJS_DEVTOOLS  
-// } from 'electron-devtools-installer'
-const isDevelopment = process.env.NODE_ENV !== 'production'
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import { app, BrowserWindow, ipcMain, Tray, Menu, screen,session } from 'electron'
 
-// Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{
-  scheme: 'app',
-  privileges: {
-    secure: true,
-    standard: true
-  }
-}])
+const path = require('path')
 
+let mainWindow
+let tray
+let remindWindow
 
-
-Menu.setApplicationMenu(null)
-
-async function createWindow() {
-  // Create the browser window.
-  
-  const win = new BrowserWindow({
-    width: 1300, 
+app.on('ready', async () => {
+  session.defaultSession.loadExtension("C:/Users/Karle/AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/6.5.0_0");
+  mainWindow = new BrowserWindow({
+    width: 1300,
     // width: 1000,
-    height: 600, 
+    height: 600,
     transparent: true,
     frame: false,
     center: true,
-    resizable: false,
+    // resizable: false,
     // movable:false,
-    webPreferences: { 
+    webPreferences: {
       webSecurity: false,
       enableRemoteModule: true,
       // nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       nodeIntegration: true,
-      contextIsolation: false,  
+      contextIsolation: false,
       // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     },
   })
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    mainWindow.webContents.openDevTools()
   } else {
-    createProtocol('app')  
+    createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html') 
+    mainWindow.loadURL(`file://${__dirname}/main.html`)
   }
-  createMenu()
-} 
-
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit() 
-  }
-}) 
+  
+})
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
-  // if (isDevelopment && !process.env.IS_TEST) {
-  //   // Install Vue Devtools
-  //   try {
-  //     await installExtension(VUEJS_DEVTOOLS)
-  //   } catch (e) {
-  //     console.error('Vue Devtools failed to install:', e.toString())
-  //   }
-  // }
-  // globalShortcut.register('CommandOrControl+Shift+i', function () {
-  //   win.webContents.openDevTools()
-  // })
-  // BrowserWindow.addDevToolsExtension()
-  session.defaultSession.loadExtension("C:/Users/Karle/AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/6.5.0_0");
-  createWindow()
+ipcMain.on('mainWindow:close', () => {
+  mainWindow.hide()
 })
 
-// Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
-  if (process.platform === 'win32') {
-    process.on('message', (data) => {
-      if (data === 'graceful-exit') {
-        app.quit()
+ipcMain.on('closeNewWindow', () => {
+  remindWindow.close()
+})
+
+ipcMain.on('newWindow', () => {
+  
+ 
+    createRemindWindow()
+  
+})
+
+function setTray () {
+  tray = new Tray(iconPath)
+  tray.setToolTip('Tasky')
+  tray.on('click', () => {
+    if(mainWindow.isVisible()){
+      mainWindow.hide()
+    }else{
+      mainWindow.show()
+    }
+  })
+  tray.on('right-click', () => {
+    const menuConfig = Menu.buildFromTemplate([
+      {
+        label: 'Quit',
+        click: () => app.quit()
       }
-    })
-  } else {
-    process.on('SIGTERM', () => {
-      app.quit()
-    })
-  }
-}
-
-function createMenu() {
-  // darwin表示macOS，针对macOS的设置
-  if (process.platform === 'darwin') {
-    const template = [{
-      label: 'App Demo',
-      submenu: [{
-          role: 'about'
-        },
-        {
-          role: 'quit'
-        }
-      ]
-    }]
-    let menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
-  } else {
-    // windows及linux系统
-    Menu.setApplicationMenu(null)
-  }
-
+    ])
+    tray.popUpContextMenu(menuConfig)
+  })
 
 }
+
+function createRemindWindow () {
+  remindWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: screen.getPrimaryDisplay().workAreaSize.width,
+    height: screen.getPrimaryDisplay().workAreaSize.height / 2,
+    transparent: true, 
+    frame: false, 
+    toolbar: true,
+    resizable: true,
+    skipTaskbar: true,
+    alwaysOnTop: true,
+    webPreferences: { 
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
+  })
+  remindWindow.setIgnoreMouseEvents(true)
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) { 
+    remindWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL + '/public/danmu.html')
+  } else {
+    createProtocol('app')
+    remindWindow.loadURL(`file://${__dirname}/public/danmu.html`)
+  }
+  
+  // remindWindow.webContents.on('did-finis h-load', () => {
+  //   remindWindow.webContents.send('setTask', task)
+  // })
+
+  remindWindow.show()
+  remindWindow.on('closeNewWindow', () => { remindWindow = null })
+  
+    
+  
+}
+

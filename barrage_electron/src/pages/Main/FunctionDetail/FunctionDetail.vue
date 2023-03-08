@@ -1,10 +1,13 @@
 <template>
-    <div class="functionDetail">
-        <Member :isShowMember="functionStatusList.isShowMember"></Member>
-        <Vote :isShowVote="functionStatusList.isShowVote"></Vote>
-        <ShareRoom :isShowShareRoom="functionStatusList.isShowShareRoom"></ShareRoom>
-        <Screen :isShowScreen="functionStatusList.isShowScreen"></Screen>
-    </div>
+
+        <div class="functionDetail">
+            <Member :isShowMember="functionStatusList.isShowMember"></Member>
+            <Vote :isShowVote="functionStatusList.isShowVote"></Vote>
+            <ShareRoom :isShowShareRoom="functionStatusList.isShowShareRoom"></ShareRoom>
+            <Screen :isShowScreen="functionStatusList.isShowScreen"></Screen>
+        </div>
+
+
 </template>
 
 <script>
@@ -37,7 +40,7 @@
         },
         mounted() {
             this.$bus.$on('getFunctionStatusList', (value) => {
-                this.functionStatusList=value
+                this.functionStatusList = value
             })
         }
     }
@@ -47,9 +50,10 @@
     .functionDetail {
         float: left;
         width: 23%;
-        height: 88%;
+        height: 100%;
         margin-top: 0.5%;
         border-radius: 10px;
-
+        overflow: hidden;
+        /* background-color: #fff; */
     }
 </style>

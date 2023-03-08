@@ -1,23 +1,28 @@
 <template>
-    <div class="historyVoteCard" style="width: 100%;height: 100%;">
-        <div class="itemArea" v-if="isShow">
-            <div class="historyVoteItem" v-for="(item,index) in historyVoteList" :key="index" @click="showHistoryVoteDetail(item)">
-                <a href="#" :title=item.content>{{ item.content }}</a>
+    <transition enter-active-class="animate__animated animate__flipInY "
+        leave-active-class="animate__animated animate__flipOutY ">
+        <div class="historyVoteCard" style="width: 100%;height: 100%;" v-show="isShowHistoryVote">
+            <div class="itemArea" v-show="!isShowDetail">
+                <div class="historyVoteItem" v-for="(item,index) in historyVoteList" :key="index"
+                    @click="showHistoryVoteDetail(item)">
+                    <a href="#" :title=item.content>{{ item.content }}</a>
+                </div>
+            </div>
+            <div class="HistoryVoteDetailBG" v-show="isShowDetail">
+                <div class="showArea" id="cartsArea" style="width: 98%;height: 72%;"></div>
+                <div class="getBack">
+                    <button @click="getBack">返回</button>
+                </div>
             </div>
         </div>
-        <HistoryVoteDetail :isShowDetail="isShowDetail" :detailInfo="detailInfo" @getBackDetail="getBackDetail"></HistoryVoteDetail>
-    </div>
+    </transition>
 </template>
 
 
 <script>
-    import HistoryVoteDetail from './HistoryVoteDetail/HistVoteDetail.vue'
     export default {
         name: 'HistoryVote',
         props: ['isShowHistoryVote'],
-        components: {
-            HistoryVoteDetail
-        },
         data() {
             return {
                 historyVoteList: [{
@@ -33,27 +38,116 @@
                         content: '有没有作业'
                     }
                 ],
-                isShowDetail:false,
-                detailInfo:''
+                isShowDetail: false,
+                detailInfo: ''
             }
         },
         methods: {
-            showHistoryVoteDetail(item){
-                this.isShowDetail=true
+            showHistoryVoteDetail(item) {
+                this.isShowDetail = true
+                this.charts()
                 //将id发请求，得到回应数据绑定给detailInfo,detailInfo传入子组件进行展示
             },
-            getBackDetail(value){
-                this.isShowDetail=false
+            getBackDetail(value) {
+                this.isShowDetail = false
+            },
+            charts() {
+                let np = new Promise((resolve, reject) => {
+                    resolve()
+                })
+                np.then(() => {
+                    this.myEcharts = this.echarts.init(document.getElementById('cartsArea'))
+                    let option = {
+                        title: {
+                            show: true,
+                            x: '10%',
+                            y: '10%',
+                            text: 'TestTestTestTestTest',
+                            textStyle: {
+                                fontSize: '15px',
+                                color: '#e1e1e3',
+
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'horizontal',
+                            x: 'right',
+                            y: 'bottom',
+                            selectedMode: false,
+                            type: 'scroll',
+                            textStyle: {
+                                color: '#e1e1e3',
+                                // fontSize:14
+                            },
+
+
+                        },
+                        series: [{
+                            name: 'Test',
+                            type: 'pie',
+                            center: ['50%', '50%'],
+                            radius: ['40', '80'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            data: [{
+                                    value: 1048,
+                                    name: '吃饭'
+                                },
+                                {
+                                    value: 735,
+                                    name: '睡觉'
+                                },
+                                {
+                                    value: 580,
+                                    name: '上课'
+                                },
+                                {
+                                    value: 484,
+                                    name: '健身'
+                                },
+                                {
+                                    value: 300,
+                                    name: '约会'
+                                },
+                                {
+                                    value: 100,
+                                    name: '洗澡'
+                                },
+                                {
+                                    value: 300,
+                                    name: '做作业'
+                                }
+
+
+                            ]
+                        }]
+                    };
+                    this.myEcharts.setOption(option);
+                })
+
+            },
+            getBack() {
+                this.myEcharts.dispose()
+
+                this.isShowDetail = false
+
+            },
+        },
+        computed: {
+            isShow() {
+                if (this.isShowHistoryVote == true) {
+                    if (this.isShowDetail == true) return false
+                    else if (this.isShowDetail == false) return true
+                } else if (this.isShowHistoryVote == false) return false
             }
         },
-        computed:{
-            isShow(){
-                if(this.isShowHistoryVote==true){
-                    if(this.isShowDetail==true) return false
-                    else if(this.isShowDetail==false) return true
-                }else if(this.isShowHistoryVote==false)return false
-            }
-        }
+        mounted() {},
     }
 </script>
 
@@ -91,5 +185,40 @@
         /* color: #ea7724; */
         text-decoration: none;
         font-size: 18px;
+    }
+
+    .HistoryVoteDetailBG {
+        width: 100%;
+        height: 90%;
+    }
+
+    .showArea {
+        margin-left: 1%;
+        width: 98%;
+        height: 72%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .getBack {
+        margin-left: 1%;
+        width: 98%;
+        height: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .getBack button {
+        width: 70%;
+        height: 50px;
+        border: none;
+        border-radius: 15px;
+        background-color: #526af0;
+        font-size: 18px;
+        color: #e1e1e3;
+        letter-spacing: 1px;
+        cursor: pointer;
     }
 </style>

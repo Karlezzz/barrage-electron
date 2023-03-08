@@ -17,7 +17,9 @@
     "animate.css": "^4.1.1",
     "core-js": "^3.8.3",
     "echarts": "^5.4.1",
+    "qrcodejs2": "^0.0.2",
     "vue": "^2.6.14",
+    "vue-baberrage": "^3.2.4",
     "vue-router": "^3.6.5"
   },
   "devDependencies": {
