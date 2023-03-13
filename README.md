@@ -103,3 +103,11 @@
 2.进行多页面入口改造，配置两个"main.js" 和 "App.vue"，在vou.config.js中配置
 
 3.构建弹幕区域组件，使用vue-baberrage插件完成弹幕效果，样式还未设定
+
+
+
+### 2023.3.13
+
+1.建立建简易websocket服务器
+
+2.连接websocket，实现建议通信。获取服务器数据存入vuex中，消息遍历的数据从vuex中获取

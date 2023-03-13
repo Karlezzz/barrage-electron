@@ -5,7 +5,7 @@
             <div class="message">
                 <div v-for="(item,index) in messageList" :key="index"
                     :class="{'leftMessage':item.name!=myName,'rightMessage':item.name==myName}">
-                    <div class="messageAuthor">{{ item.name }}</div>
+                    <div class="messageAuthor" >{{ item.name }}</div>
                     <div class="messageWord">{{ item.content }}</div>
                 </div>
             </div>
@@ -23,48 +23,85 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
     export default {
         name: 'Barrage',
         data() {
-            return {
+            return { 
                 myName: 'Mr.Li',
                 newMessage: '',
-                messageList: [{
-                        name: 'Karle',
-                        content: 'hello'
-                    },
-                    {
-                        name: 'Amy',
-                        content: 'hi'
-                    },
-                    {
-                        name: 'Mike',
-                        content: 'nice to meet you'
-                    },
-                    {
-                        name: 'Kris',
-                        content: 'nice to meet you too'
-                    },
-                    {
-                        name: 'Mr.Li',
-                        content: 'welcome'
-                    },
-                ],
+                // messageList: [{
+                //         name: 'Karle',
+                //         content: 'hello'
+                //     },
+                //     {
+                //         name: 'Amy',
+                //         content: 'hi'
+                //     },
+                //     {
+                //         name: 'Mike',
+                //         content: 'nice to meet you'
+                //     },
+                //     {
+                //         name: 'Kris',
+                //         content: 'nice to meet you too'
+                //     },
+                //     {
+                //         name: 'Mr.Li',
+                //         content: 'welcome'
+                //     },
+                // ],
+                ws:null,
+                messageList:this.$store.state.barrage_chat.messageList
             }
-        },
-        methods: {
-            sendMessage() {
-                const newMs = {
-                    name: this.myName,
-                    content: this.newMessage
-                }
-                this.messageList.push(newMs)
+        }, 
+        methods: { 
+            sendMessage() { 
+                this.$store.dispatch('saveMessage',{
+                    content:this.newMessage,
+                    name:this.myName
+                })
                 this.newMessage = ''
             },
+            initWS(){
+                this.ws = new WebSocket('ws://localhost:3000/')
+                this.ws.onopen=()=>{
+                    this.ws.send('connect success')
+                }
+                console.log(this.ws);
+            } ,
+            //判断上一条消息是否为自己的消息，逻辑还没搞清除，不想写了
+            // checkSameName(index){
+            //     if(this.messageList.length>=0&&this.messageList<3){
+            //         if(this.messageList.length==1) return true
+            //         else {
+            //             if(index==0)return true
+            //             else {
+            //                 if(this.messageList[0].name==this.messageList[1].name)return false
+            //                 else return true
+            //             }
+            //         }
+            //     }else if(this.messageList>=3){
+            //         if(index==0)return true
+            //         else{
+            //             if(this.messageList[index].name==this.message[index-1].name)return false
+            //             else return true
+            //         }
+            //     }
+            // }
+            
+        },
+        computed:{
+           
         },
         mounted() {
             let div = document.querySelector(".message");
             div.scrollTop = div.scrollHeight;
+
+            // this.$store.dispatch('wsChat')
+            this.initWS()
+
         },
         watch: {
             // 屏幕滚动始终在最后一条
@@ -75,6 +112,9 @@
                 });
             },
         },
+        beforeDestroy(){
+            this.ws.close()
+        }
     }
 </script>
 
@@ -101,6 +141,7 @@
         margin-left: 1%;
         height: 88%;
         overflow: scroll;
+        margin-top: 10px;
     }
 
     .barrage .chatArea .message .leftMessage {
@@ -112,7 +153,7 @@
     }
 
     .barrage .chatArea .message .leftMessage .messageAuthor {
-        font-size: 100%;
+        font-size: 90%;
         color: #e1e1e3;
         font-weight: 500;
         letter-spacing: 1px;
@@ -140,7 +181,7 @@
     .barrage .chatArea .message .rightMessage .messageAuthor {
         text-align: right;
         margin-right: 5px;
-        font-size: 100%;
+        font-size: 90%;
         color: #e1e1e3;
         font-weight: 500;
         letter-spacing: 1px;
@@ -164,7 +205,6 @@
         display: flex;
         align-items: center;
         margin-left: 1%;
-        margin-top: 2%;
     }
 
     .barrage .chatArea .input input {

@@ -98,13 +98,13 @@ function createRemindWindow () {
     }
   })
   remindWindow.setIgnoreMouseEvents(true)
-
+ 
   if (process.env.WEBPACK_DEV_SERVER_URL) { 
     remindWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL + '/public/danmu.html')
   } else {
     createProtocol('app')
     remindWindow.loadURL(`file://${__dirname}/public/danmu.html`)
-  }
+  } 
   
   // remindWindow.webContents.on('did-finis h-load', () => {
   //   remindWindow.webContents.send('setTask', task)
